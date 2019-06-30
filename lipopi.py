@@ -35,9 +35,6 @@ def lipopi_setup():
     # setup the low battery check pin
     GPIO.setup(lipopi["low_battery_pin"], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-    # setup the power disable pin
-    #GPIO.setup(lipopi["power_disable_pin"], GPIO.OUT, initial=GPIO.HIGH)
-
     # create a trigger for the shutdown switch and low battery pins
     GPIO.add_event_detect(lipopi["shutdown_pin"], GPIO.FALLING, callback=lipopi_user_shutdown, bouncetime=300)
     GPIO.add_event_detect(lipopi["low_battery_pin"], GPIO.FALLING, callback=lipopi_low_battery_shutdown, bouncetime=300)
@@ -65,7 +62,6 @@ def rpi_shutdown(msg):
 # Respond to a low battery signal from the PowerBoost and shutdown
 # Pin goes low on low battery
 def lipopi_low_battery_shutdown(channel):
-    #global lipopi
     cmd = "sudo wall 'System shutting down in %d seconds'" % lipopi["shutdown_wait"]
     os.system(cmd)
     msg = time.strftime("Low Battery - Shutting down at %a, %d %b %Y %H:%M:%S +0000\n", time.gmtime())
@@ -74,7 +70,6 @@ def lipopi_low_battery_shutdown(channel):
 
 # Close the log file, reset the GPIO pins
 def lipopi_cleanup():
-    #global lipopi
     lipopi["logfile_pointer"].close()
     GPIO.cleanup()
 
