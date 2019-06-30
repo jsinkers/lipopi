@@ -47,8 +47,7 @@ def lipopi_setup():
 
 
 # Detect when the switch is pressed - wait shutdown_wait seconds - then shutdown
-def lipopi_user_shutdown(channel):
-    #global lipopi
+def lipopi_user_shutdown():
     cmd = "sudo wall 'System shutting down in %d seconds'" % lipopi["shutdown_wait"]
     os.system(cmd)
     msg = time.strftime("User Request - Shutting down at %a, %d %b %Y %H:%M:%S +0000\n", time.gmtime())
